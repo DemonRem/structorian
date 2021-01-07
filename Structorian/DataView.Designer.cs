@@ -61,8 +61,8 @@ namespace Structorian
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this._structGridView);
-            this.splitContainer1.Size = new System.Drawing.Size(549, 286);
-            this.splitContainer1.SplitterDistance = 181;
+            this.splitContainer1.Size = new System.Drawing.Size(549, 254);
+            this.splitContainer1.SplitterDistance = 97;
             this.splitContainer1.TabIndex = 5;
             // 
             // _structTreeView
@@ -71,7 +71,7 @@ namespace Structorian
             this._structTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this._structTreeView.Location = new System.Drawing.Point(0, 0);
             this._structTreeView.Name = "_structTreeView";
-            this._structTreeView.Size = new System.Drawing.Size(181, 286);
+            this._structTreeView.Size = new System.Drawing.Size(97, 254);
             this._structTreeView.TabIndex = 3;
             this._structTreeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this._structTreeView_BeforeExpand);
             this._structTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this._structTreeView_AfterSelect);
@@ -82,39 +82,39 @@ namespace Structorian
             this.closeDataFileToolStripMenuItem,
             this.miShowInStructureTree});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(196, 70);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(192, 48);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // closeDataFileToolStripMenuItem
             // 
             this.closeDataFileToolStripMenuItem.Name = "closeDataFileToolStripMenuItem";
-            this.closeDataFileToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.closeDataFileToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.closeDataFileToolStripMenuItem.Text = "Close Data File";
             this.closeDataFileToolStripMenuItem.Click += new System.EventHandler(this.closeDataFileToolStripMenuItem_Click);
             // 
             // miShowInStructureTree
             // 
             this.miShowInStructureTree.Name = "miShowInStructureTree";
-            this.miShowInStructureTree.Size = new System.Drawing.Size(195, 22);
+            this.miShowInStructureTree.Size = new System.Drawing.Size(191, 22);
             this.miShowInStructureTree.Text = "Show in Structure Tree";
             this.miShowInStructureTree.Click += new System.EventHandler(this.miShowInStructureTree_Click);
             // 
             // _structGridView
             // 
-            this._structGridView.AllowUserToAddRows = false;
-            this._structGridView.AllowUserToDeleteRows = false;
             this._structGridView.AllowUserToResizeRows = false;
             this._structGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._structGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this._structGridView.Location = new System.Drawing.Point(0, 0);
-            this._structGridView.MultiSelect = false;
             this._structGridView.Name = "_structGridView";
             this._structGridView.RowHeadersVisible = false;
-            this._structGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this._structGridView.Size = new System.Drawing.Size(364, 286);
+            this._structGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this._structGridView.Size = new System.Drawing.Size(448, 254);
             this._structGridView.TabIndex = 2;
+            this._structGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this._structGridView_CellClick);
             this._structGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this._structGridView_CellContextMenuStripNeeded);
+            this._structGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this._structGridView_CellEndEdit);
             this._structGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this._structGridView_CellFormatting);
+            this._structGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this._structGridView_CellValidating);
             this._structGridView.SelectionChanged += new System.EventHandler(this._structGridView_SelectionChanged);
             // 
             // splitContainer2
@@ -128,7 +128,7 @@ namespace Structorian
             // 
             this.splitContainer2.Panel1.Controls.Add(this.splitContainer1);
             this.splitContainer2.Size = new System.Drawing.Size(549, 423);
-            this.splitContainer2.SplitterDistance = 286;
+            this.splitContainer2.SplitterDistance = 254;
             this.splitContainer2.TabIndex = 6;
             // 
             // contextMenuStrip1
@@ -136,12 +136,12 @@ namespace Structorian
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miFollowOffset});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(150, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 26);
             // 
             // miFollowOffset
             // 
             this.miFollowOffset.Name = "miFollowOffset";
-            this.miFollowOffset.Size = new System.Drawing.Size(149, 22);
+            this.miFollowOffset.Size = new System.Drawing.Size(144, 22);
             this.miFollowOffset.Text = "Follow Offset";
             this.miFollowOffset.Click += new System.EventHandler(this.miFollowOffset_Click);
             // 

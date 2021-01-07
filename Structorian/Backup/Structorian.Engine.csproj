@@ -1,0 +1,133 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7275C649-8EDB-4BD2-AC99-9E0D2B610DE0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Structorian.Engine</RootNamespace>
+    <AssemblyName>Structorian.Engine</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseLexer.cs" />
+    <Compile Include="EnumDef.cs" />
+    <Compile Include="EnumReference.cs" />
+    <Compile Include="ExprCell.cs" />
+    <Compile Include="Expression.cs" />
+    <Compile Include="ExpressionFunctions.cs" />
+    <Compile Include="ExpressionLexer.cs" />
+    <Compile Include="ExpressionParser.cs" />
+    <Compile Include="Fields\AlignField.cs" />
+    <Compile Include="Fields\AssertField.cs" />
+    <Compile Include="AttributeRegistry.cs" />
+    <Compile Include="Fields\BitfieldField.cs" />
+    <Compile Include="Fields\BitsField.cs" />
+    <Compile Include="Fields\BlobCell.cs" />
+    <Compile Include="Fields\BlobDecoder.cs" />
+    <Compile Include="Fields\BlobField.cs" />
+    <Compile Include="Fields\BreakField.cs" />
+    <Compile Include="Fields\BreakRepeatException.cs" />
+    <Compile Include="Fields\CalcField.cs" />
+    <Compile Include="Fields\CaseField.cs" />
+    <Compile Include="Fields\DosDateTimeField.cs" />
+    <Compile Include="Fields\ElseField.cs" />
+    <Compile Include="Fields\ElseIfField.cs" />
+    <Compile Include="Fields\EnumField.cs" />
+    <Compile Include="Fields\FieldFactory.cs" />
+    <Compile Include="Fields\ChildField.cs" />
+    <Compile Include="Fields\FloatField.cs" />
+    <Compile Include="Fields\GlobalField.cs" />
+    <Compile Include="Fields\IfField.cs" />
+    <Compile Include="Fields\ImageDecoder.cs" />
+    <Compile Include="Fields\ImageField.cs" />
+    <Compile Include="Fields\IncludeField.cs" />
+    <Compile Include="Fields\IntBasedField.cs" />
+    <Compile Include="Fields\MessageField.cs" />
+    <Compile Include="Fields\MiniLZODecoder.cs" />
+    <Compile Include="Fields\NodenameField.cs" />
+    <Compile Include="Fields\RepeatField.cs" />
+    <Compile Include="Fields\RewindField.cs" />
+    <Compile Include="Fields\IntField.cs" />
+    <Compile Include="Fields\SeekField.cs" />
+    <Compile Include="Fields\SetField.cs" />
+    <Compile Include="Fields\StrField.cs" />
+    <Compile Include="Fields\SwitchField.cs" />
+    <Compile Include="Fields\UnixTimeField.cs" />
+    <Compile Include="FindStructuresAction.cs" />
+    <Compile Include="ValueCell.cs" />
+    <Compile Include="Fields\WhileField.cs" />
+    <Compile Include="Fields\ZLibDecoder.cs" />
+    <Compile Include="FunctionRegistry.cs" />
+    <Compile Include="GroupContainer.cs" />
+    <Compile Include="InstanceTree.cs" />
+    <Compile Include="InstanceTreeNode.cs" />
+    <Compile Include="ReferenceBase.cs" />
+    <Compile Include="LoadDataException.cs" />
+    <Compile Include="ParseException.cs" />
+    <Compile Include="SaveAllBlobsAction.cs" />
+    <Compile Include="StructCell.cs" />
+    <Compile Include="StructDef.cs" />
+    <Compile Include="StructField.cs" />
+    <Compile Include="StructFile.cs" />
+    <Compile Include="StructInstance.cs" />
+    <Compile Include="StructLexer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StructParser.cs" />
+    <Compile Include="StructReference.cs" />
+    <Compile Include="StructSourceContext.cs" />
+    <Compile Include="TextPosition.cs" />
+    <Compile Include="Values.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniLZO\MiniLZO.csproj">
+      <Project>{68AF930D-1172-4D5F-9722-99CB13C206D6}</Project>
+      <Name>MiniLZO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

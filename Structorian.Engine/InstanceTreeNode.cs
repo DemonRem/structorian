@@ -16,6 +16,7 @@ namespace Structorian.Engine
 
         public abstract StructInstance LastChild { get; }
         public abstract long EndChildrenOffset { get; }
+        public int depth = 0;
 
         public InstanceTree GetInstanceTree()
         {

@@ -1,0 +1,10 @@
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\bin\Debug\Structorian.Engine.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\bin\Debug\Structorian.Engine.pdb
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\bin\Debug\MiniLZO.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\bin\Debug\MiniLZO.pdb
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\obj\Debug\Structorian.Engine.csprojAssemblyReference.cache
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\obj\Debug\Structorian.Engine.csproj.CoreCompileInputs.cache
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\obj\Debug\Structorian.Engine.csproj.CopyComplete
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\obj\Debug\Structorian.Engine.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine\obj\Debug\Structorian.Engine.pdb

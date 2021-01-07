@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
@@ -25,7 +27,7 @@ namespace Structorian
         public MainForm()
         {
             InitializeComponent();
-            _dataView = new DataView();
+            _dataView = new DataView(this);
             _dataView.CellSelected += _dataView_OnCellSelected;
             _dataView.Dock = DockStyle.Fill;
             splitContainer2.Panel2.Controls.Add(_dataView);
@@ -39,6 +41,21 @@ namespace Structorian
             
             RestoreFormPosition();
             _settingsLoaded = true;
+        }
+
+        public void setFilterField(List<string> ds)
+        {
+            this.tsFilterField.ComboBox.DataSource = ds;
+        }
+
+        public string getFilterField()
+        {
+            return this.tsFilterField.Text;
+        }
+
+        public string getFilterValue()
+        {
+            return this.tsFilterValue.Text;
         }
 
         private void RestoreFormPosition()
@@ -307,16 +324,6 @@ namespace Structorian
         {
             public bool PreFilterMessage(ref Message m)
             {
-                if (m.Msg == WindowsAPI.WM_MOUSEWHEEL)
-                {
-                    WindowsAPI.POINTAPI ptapi = new WindowsAPI.POINTAPI(m.LParam.ToInt32());
-                    IntPtr pWnd = WindowsAPI.WindowFromPoint(ptapi);
-                    if (pWnd.ToInt32() != 0)
-                    {
-                        WindowsAPI.SendMessage(pWnd, WindowsAPI.WM_MOUSEWHEEL, m.WParam.ToInt32(), m.LParam.ToInt32());
-                        return true;
-                    }
-                }
                 return false;
             }
         }
@@ -331,6 +338,91 @@ namespace Structorian
                 Action = action;
                 Callback = callback;
             }
+        }
+
+        private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this._dataView._listPatchData == null || this._dataView._listPatchData.Count <= 0)
+            {
+                MessageBox.Show("Nothing to patch");
+                return;
+            }
+            // Backup
+            File.Copy(this._dataView.GetFullPath(), this._dataView.GetFullPath() + ".BAK", true);
+            Stream stream = _dataView.GetStream();
+            using (BinaryWriter binWriter = new BinaryWriter(File.Open(this._dataView.GetFullPath() + ".patched", FileMode.Create)))
+            { 
+                byte[] byteArray = this.ReadToEnd(stream);
+                byte[] buffer;
+                foreach (PatchData patchData in this._dataView._listPatchData.Values)
+                {
+                    buffer = Utils.ToBytes(patchData._dataValue);
+                    int j = 0;
+                    for (int i = (int) patchData._offset; i < patchData._offset + buffer.Length; i++)
+                    {
+                        byteArray[i] = buffer[j++];
+                    }
+                }
+                binWriter.Write(byteArray);
+            }
+            MessageBox.Show("Saved");
+        }
+
+        private byte[] ReadToEnd(Stream stream)
+        {
+            long originalPosition = 0;
+
+            if (stream.CanSeek)
+            {
+                originalPosition = stream.Position;
+                stream.Position = 0;
+            }
+
+            try
+            {
+                byte[] readBuffer = new byte[4096];
+
+                int totalBytesRead = 0;
+                int bytesRead;
+
+                while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
+                {
+                    totalBytesRead += bytesRead;
+
+                    if (totalBytesRead == readBuffer.Length)
+                    {
+                        int nextByte = stream.ReadByte();
+                        if (nextByte != -1)
+                        {
+                            byte[] temp = new byte[readBuffer.Length * 2];
+                            Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
+                            Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
+                            readBuffer = temp;
+                            totalBytesRead++;
+                        }
+                    }
+                }
+
+                byte[] buffer = readBuffer;
+                if (readBuffer.Length != totalBytesRead)
+                {
+                    buffer = new byte[totalBytesRead];
+                    Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
+                }
+                return buffer;
+            }
+            finally
+            {
+                if (stream.CanSeek)
+                {
+                    stream.Position = originalPosition;
+                }
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(((StructInstance)this._dataView.GetInstanceTree().Children[0])._checksum.ToString());
         }
     }
 }

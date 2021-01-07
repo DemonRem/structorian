@@ -77,6 +77,7 @@ namespace Structorian.Engine
                 
                 try
                 {
+                    field.Offset = reader.BaseStream.Position;
                     field.LoadData(reader, instance);
                 }
                 catch(LoadDataException ex)

@@ -1,0 +1,87 @@
+[filemask="tb_Item.res"]
+
+struct Item
+{
+u32 nBlocks;
+child ItemBlock [group=Items, count=nBlocks];
+child MD5Block [group=MD5, count=1];
+}
+
+struct ItemBlock [preload=1]
+{
+	
+  u32 Item_ID;
+  u32 Item_Classify_Index;
+  u8 Item_Rank;
+  u16 Item_Lv;
+  u32 Sell_Price;
+  u32 Buy_Price;
+  u32 Recycle_Sell_Price;
+  u32 Recycle_Buy_Price;
+  u16 Item_Stack_Max;
+  u8 Item_Bind_Type;
+  u32 Item_Model_ID;
+  [hidden] u16 Item_NameS_cnt;
+  wstr [len=Item_NameS_cnt] Item_NameS;
+  u16 Item_Limit_Lv;
+  u8 Item_Limit_Class;
+  u8 Item_Limit_Sell_Type;
+  u8 Item_Sub_Type;
+  u8 Item_CostumeSet;
+  u32 Item_CostumeSet_ID;
+  [hidden] u16 Item_Slot_Disable_cnt;
+  wstr [len=Item_Slot_Disable_cnt] Item_Slot_Disable;
+  u8 Item_Endurance_Max;
+  u8 Item_Use_Value;
+  u32 Item_physical_Attack_Min;
+  u32 Item_physical_Attack;
+  u32 Item_Magic_Attack;
+  u32 Item_physical_Defense_Min;
+  u32 Item_physical_Defense;
+  u32 Item_Magic_Defense;
+  u8 Option_Class_1;
+  u8 Option_Class_2;
+  u8 Option_Class_3;
+  u8 Option_Class_4;
+  u8 Option_Class_5;
+  u32 S_Option_Type_1;
+  u32 S_Option_Type_2;
+  u32 S_Option_Type_3;
+  u32 S_Option_Type_4;
+  u32 S_Option_Type_5;
+  u32 S_Option_Value_1;
+  u32 S_Option_Value_2;
+  u32 S_Option_Value_3;
+  u32 S_Option_Value_4;
+  u32 S_Option_Value_5;
+  u32 Item_Ex_Option_ID;
+  u32 Item_Socket_ID;
+  u32 Item_SetItem_ID;
+  u16 Item_Reinforce_ID;
+  u32 Item_Reinforce_Option_ID;
+  u32 Item_Title_ID;
+  u32 Item_Evolution_ID;
+  u16 Item_Disassemble_ID;
+  u32 Furniture_ID;
+  u16 Cooltime_Group;
+  u32 Cooltime_Value;
+  u8 Cooltime_Save;
+  u16 Item_Effect_Type;
+  u32 Item_Effect_ID;
+  u8 Item_Cash;
+  u8 Item_Use_Period_Type;
+  u32 Item_Use_Period_Value;
+  u8 Sealing_Cnt;
+  u8 Break_Cnt;
+  u32 Item_SimilarGroup_ID;
+  u32 RepackageItem_ID;
+
+}
+
+struct MD5Block
+{
+
+  u16 nBlocks;
+  cstr [len=nBlocks] MD5Hash;
+
+}

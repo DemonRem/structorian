@@ -63,6 +63,10 @@ namespace Structorian.UI
 
         private readonly List<Highlighter> _highlighters = new List<Highlighter>();
         private readonly Highlighter _selectionHighlighter;
+        public List<Highlighter> GetHighlighters()
+        {
+            return this._highlighters;
+        }
 
         public HexDump()
         {

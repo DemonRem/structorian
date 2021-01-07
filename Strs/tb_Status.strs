@@ -1,0 +1,79 @@
+[filemask="tb_Status.res"]
+
+struct Status
+{
+u32 nBlocks;
+child StatusBlock [group=Status, count=nBlocks];
+child MD5Block [group=MD5, count=1];
+}
+
+struct StatusBlock [preload=1]
+{
+	
+  u16 ID;
+  u32 STR_First_Value;
+  u32 STR_UP_Value;
+  u32 AGI_First_Value;
+  u32 AGI_UP_Value;
+  u32 INT_First_Value;
+  u32 INT_UP_Value;
+  u32 BAL_First_Value;
+  u32 BAL_UP_Value;
+  u32 VIT_First_Value;
+  u32 VIT_UP_Value;
+  u32 LUC_First_Value;
+  u32 LUC_UP_Value;
+  u32 Con_HP_Grow;
+  u32 Con_ST_Reg;
+  u32 Con_SG_Reg;
+  u32 Con_MSR;
+  u32 Con_ASR;
+  u32 Con_PATK_Max;
+  u32 Con_MATK_Max;
+  u32 Con_PDEF;
+  u32 Con_MDEF;
+  u32 PDPR_First_Value;
+  u32 MDPR_First_Value;
+  u32 Con_PAR;
+  u32 Con_MAR;
+  u32 Con_PARP;
+  u32 Con_MARP;
+  u32 Con_PCP;
+  u32 Con_MCP;
+  u32 Con_PCRP;
+  u32 Con_MCRP;
+  u32 Con_PCA;
+  u32 Con_MCA;
+  u32 Con_PDSR;
+  u32 Con_MDSR;
+  u8 Res_Burn_Rate;
+  u8 Res_Poision_Rate;
+  u8 Res_Shcok_Rate;
+  u8 Res_Bleed_Rate;
+  u8 Res_Stun_Rate;
+  u8 Res_Paralysis_Rate;
+  u8 Res_Sleep_Rate;
+  u8 Res_Freeze_Rate;
+  u8 Res_Charm_Rate;
+  u8 Res_Confusion_Rate;
+  u8 Res_Silence_Rate;
+  u8 Res_Weak_Rate;
+  u16 SG_First_Value;
+  u32 Con_PvP_Reduce;
+  u32 Con_PVP_PDPR_Rate;
+  u32 Con_SADamage_Value;
+  u32 Con_SG_Absorb_Rate;
+  u32 Con_HP_First_Value;
+  u32 Con_ST_First_Value;
+  u32 Con_PAR_First_Value;
+  u32 Con_MAR_First_Value;
+  u32 Con_ADR_Value;
+  u32 Check_Stat_SA;
+  
+}
+
+struct MD5Block
+{
+u16 nBlocks;
+cstr [len=nBlocks] MD5Hash;
+}

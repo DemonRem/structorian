@@ -1,3 +1,4 @@
+using Structorian.Engine.Fields;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,6 +34,7 @@ namespace Structorian.Engine
 
         private StructInstance _followInstance = null;
         private bool _followChildren;
+        public long _checksum = 0;
 
         public StructInstance(StructDef def, InstanceTreeNode parent, Stream stream, long offset)
         {
@@ -261,8 +263,30 @@ namespace Structorian.Engine
             }
         }
 
+        private void calcChecksum(IConvertible value, StructCell cell)
+        {
+            if (Utils.IsNumeric(value))
+            {
+                this._checksum += long.Parse(value.ToString());
+            }
+            else if (value.GetTypeCode() == TypeCode.String && this.Offset < this.Stream.Length - 34)
+            {
+                byte[] buffer = Utils.ToBytes(value);
+                this._checksum += ((StrField)cell.GetStructDef()).GetWide() ? buffer.Length / 2 : buffer.Length;
+                for (int j = 0; j < buffer.Length; j++)
+                {
+                    this._checksum += buffer[j];
+                }
+            }
+            else
+            {
+                var a = 10;
+            }
+        }
+
         internal void AddCell(StructCell cell, bool hidden)
         {
+            calcChecksum(cell.GetValue(), cell);
             if (hidden || _hideAddedCells)
             {
                 if (_allCells == null)

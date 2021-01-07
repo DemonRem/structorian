@@ -1,0 +1,46 @@
+[filemask="tb_Shop.res"]
+
+struct Shop
+{
+u32 nBlocks;
+child ShopBlock [group=Shop, count=nBlocks];
+child MD5Block [group=MD5, count=1];
+}
+
+struct ShopBlock [preload=1]
+{
+	
+  u32 Shop_Index;
+  u32 Group_ID;
+  u8 Sell_Active;
+  u32 SellItem_ID;
+  u8 Need_Slot;
+  u8 Customer_Grade;
+  u8 Limit_Type;
+  u8 Period_Type;
+  u8 Day_Limit;
+  u8 Sell_Type;
+  [hidden] u16 start_date_cnt;
+  wstr [len=start_date_cnt] Start_Date;
+  [hidden] u16 end_date_cnt;
+  wstr [len=end_date_cnt] End_Date;
+  u8 Price_Type;
+  u16 Item_Count;
+  u32 Price_Base;
+  u32 Price_1day;
+  u32 Price_7day;
+  u32 Price_15day;
+  u32 Price_30day;
+  u8 Sell_AddIcon;
+  u8 Item_Gift;
+  u32 Sell_priority;
+
+}
+
+struct MD5Block
+{
+
+u16 nBlocks;
+cstr [len=nBlocks] MD5Hash;
+
+}

@@ -1,0 +1,6 @@
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\bin\Debug\MiniLZO.dll
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\bin\Debug\MiniLZO.pdb
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\obj\Debug\MiniLZO.csprojAssemblyReference.cache
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\obj\Debug\MiniLZO.csproj.CoreCompileInputs.cache
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\obj\Debug\MiniLZO.dll
+D:\GameDev\SoulWorker\structorian-master\MiniLZO\obj\Debug\MiniLZO.pdb

@@ -1,0 +1,12 @@
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\MADSPack.dll
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\MADSPack.pdb
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\Structorian.Engine.dll
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\MiniLZO.dll
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\Structorian.Engine.pdb
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\bin\Debug\MiniLZO.pdb
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\obj\Debug\MADSPack.csprojAssemblyReference.cache
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\obj\Debug\MADSPack.csproj.CoreCompileInputs.cache
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\obj\Debug\MADSPack.csproj.CopyComplete
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\obj\Debug\MADSPack.dll
+D:\GameDev\SoulWorker\structorian-master\Plugins\MADSPack\obj\Debug\MADSPack.pdb

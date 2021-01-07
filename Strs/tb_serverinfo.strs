@@ -1,0 +1,23 @@
+[filemask="tb_ServerInfo.res"]
+
+struct ServerInfo
+{
+u32 nBlocks;
+child Block [count=nBlocks];
+child MD5Block [group=MD5, count=1];
+}
+
+struct Block [preload=1]
+{
+  u32 Server_Index;
+  [hidden]u16 strCount;
+  wstr [len=strCount] Server_Name;
+  u8 Server_Type;
+  u8 PVP_Enable;
+}
+
+struct MD5Block
+{
+u16 nBlocks;
+cstr [len=nBlocks] MD5Hash;
+}

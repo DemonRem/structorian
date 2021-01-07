@@ -1,0 +1,13 @@
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\Structorian.Engine.Tests.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\Structorian.Engine.Tests.pdb
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\nunit.framework.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\Structorian.Engine.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\MiniLZO.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\Structorian.Engine.pdb
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\bin\Debug\MiniLZO.pdb
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\obj\Debug\Structorian.Engine.Tests.csprojAssemblyReference.cache
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\obj\Debug\Structorian.Engine.Tests.csproj.CoreCompileInputs.cache
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\obj\Debug\Structorian.Engine.Tests.csproj.CopyComplete
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\obj\Debug\Structorian.Engine.Tests.dll
+D:\GameDev\SoulWorker\structorian-master\Structorian.Engine.Tests\obj\Debug\Structorian.Engine.Tests.pdb

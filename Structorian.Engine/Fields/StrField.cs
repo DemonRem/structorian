@@ -17,6 +17,11 @@ namespace Structorian.Engine.Fields
             _requireNullTerminated = requireNullTerminated;
         }
 
+        public bool GetWide()
+        {
+            return _wide;
+        }
+
         public override void LoadData(BinaryReader reader, StructInstance instance)
         {
             Expression valueExpr = GetExpressionAttribute("value");

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32.SafeHandles;
 using Structorian.Engine;
+using Structorian.Engine.Fields;
 using Structorian.UI;
 
 namespace Structorian
@@ -47,12 +49,17 @@ namespace Structorian
         private readonly List<InstanceAddedEventArgs> _pendingNodes = new List<InstanceAddedEventArgs>();
         private readonly List<InstanceTreeNode> _nameChangedNodes = new List<InstanceTreeNode>();
         private readonly HexDump.Highlighter _currentStructureHighlighter;
-
+        public InstanceTreeNode currentInstanceTree;
+        public MainForm parent;
         public event CellSelectedEventHandler CellSelected;
+        public Dictionary<long, PatchData> _listPatchData;
+        public long _checksumData = 0;
+        
 
-        public DataView()
+        public DataView(MainForm parent)
         {
             InitializeComponent();
+            this.parent = parent;
             _hexDump = new HexDump
                            {
                                Font = new Font("Lucida Console", 9),
@@ -61,6 +68,43 @@ namespace Structorian
                            };
             _currentStructureHighlighter = _hexDump.AddHighlighter(null, Color.LightGoldenrodYellow);
             splitContainer2.Panel2.Controls.Add(_hexDump);
+            _listPatchData = new Dictionary<long, PatchData>();
+        }
+
+        public Stream GetStream()
+        {
+            foreach (DataFile dataFile in this._dataFiles)
+            {
+                if (dataFile.Stream != null && dataFile.Stream.Length > 0)
+                {
+                    return dataFile.Stream;
+                }
+            }
+            return null;
+        }
+
+        public string GetFullPath()
+        {
+            foreach (DataFile dataFile in this._dataFiles)
+            {
+                if (dataFile.Stream != null && dataFile.Stream.Length > 0)
+                {
+                    return dataFile.Name;
+                }
+            }
+            return null;
+        }
+
+        public InstanceTree GetInstanceTree()
+        {
+            foreach (DataFile dataFile in this._dataFiles)
+            {
+                if (dataFile.Stream != null && dataFile.Stream.Length > 0)
+                {
+                    return dataFile.InstanceTree;
+                }
+            }
+            return null;
         }
 
         public TreeView StructTreeView
@@ -271,11 +315,17 @@ namespace Structorian
                     else
                     {
                         _structGridView.Visible = true;
-                        _structGridView.DataSource = _activeInstance.Cells;
+                        // _structGridView.DataSource = _activeInstance.Cells;
+                        if (_structGridView.DataSource == null)
+                        {
+                            _structGridView.DataSource = LoadDS(currentInstanceTree);
+                        }
                     }
                     // while we're in BeginUpdate, pre-evaluate all cell values
                     _activeInstance.Cells.ToList().ForEach(cell => cell.Value.ToString());
                 }
+                if (!string.IsNullOrEmpty(this.parent.getFilterField()))
+                    (_structGridView.DataSource as DataTable).DefaultView.RowFilter = string.Format("{0} like '%{1}%'", this.parent.getFilterField(), this.parent.getFilterValue());
             }
             finally
             {
@@ -296,6 +346,55 @@ namespace Structorian
                 _hexDump.Stream = instance.Stream;
                 _currentStructureHighlighter.SetRange(instance.Offset, instance.EndOffset);
             }
+            // Re-select grid
+            if (_structGridView.Rows.Count >= e.Node.Index && _structGridView.CurrentCell != null)
+            {
+                _structGridView.CurrentCell = _structGridView.Rows[e.Node.Index].Cells[_structGridView.CurrentCell.ColumnIndex];
+            }
+        }
+
+        private DataTable LoadDS(InstanceTreeNode itn)
+        {
+            if (itn == null)
+            {
+                return null;
+            }
+            DataTable fakeGridData = new DataTable();
+            // Make header
+            List<string> headers = new List<string>();
+            for (int i = 0; i < itn.Children.First().Cells.Count; i++)
+            {
+                fakeGridData.Columns.Add(itn.Children.First().Cells[i].Tag);
+                headers.Add(itn.Children.First().Cells[i].Tag);
+            }
+            this.parent.setFilterField(headers);
+            // Make data
+            DataRow dr;
+            foreach (InstanceTreeNode children in itn.Children)
+            {
+                dr = fakeGridData.NewRow();
+                for (int i = 0; i < children.Cells.Count; i++)
+                {
+                    dr[children.Cells[i].Tag] = children.Cells[i].Value;
+                    if (Utils.IsNumeric(children.Cells[i].GetValue()))
+                    {
+                        this._checksumData += long.Parse(children.Cells[i].Value);
+                    } else if (children.Cells[i].GetValue().GetTypeCode() == TypeCode.String && children.Cells[i].Offset < this.GetStream().Length - 34)
+                    {
+                        byte[] buffer = Utils.ToBytes(children.Cells[i].Value);
+                        this._checksumData += ((StrField)children.Cells[i].GetStructDef()).GetWide() ? buffer.Length / 2 : buffer.Length;
+                        for (int j = 0; j < buffer.Length; j++)
+                        {
+                            this._checksumData += buffer[j];
+                        }
+                    } else
+                    {
+                        int a = 10;
+                    }
+                }
+                fakeGridData.Rows.Add(dr);
+            }
+            return fakeGridData;
         }
 
         private static NodeUI FindNodeUI(InstanceTreeNode instance)
@@ -312,37 +411,23 @@ namespace Structorian
         {
             if (e.Node.Nodes.Count == 0)
             {
-                InstanceTreeNode instance = (InstanceTreeNode)e.Node.Tag;
+                currentInstanceTree = (InstanceTreeNode)e.Node.Tag;
                 _structTreeView.BeginUpdate();
                 try
                 {
-                    instance.NeedChildren();
+                    currentInstanceTree.NeedChildren();
                 }
                 finally
                 {
                     _structTreeView.EndUpdate();
                 }
-                if (instance.Children.Count == 0)
+                if (currentInstanceTree.Children.Count == 0)
                     WindowsAPI.SetHasChildren(e.Node, false);
             }
         }
 
         private void _structGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (_structGridView.SelectedRows.Count > 0)
-            {
-                var cell = (StructCell)_structGridView.SelectedRows[0].DataBoundItem;
-                int offset = cell.Offset;
-                if (offset >= 0)
-                {
-                    int dataSize = cell.GetDataSize((StructInstance) _activeInstance);
-                    if (dataSize <= 0)
-                        dataSize = 1;
-                    _hexDump.SelectBytes(offset, dataSize);
-                }
-                if (CellSelected != null)
-                    CellSelected(this, new CellSelectedEventArgs(cell));
-            }
         }
 
         private void _structGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -355,12 +440,15 @@ namespace Structorian
             }
             else if (e.ColumnIndex == 1)
             {
-                var cell = (StructCell)_structGridView.Rows[e.RowIndex].DataBoundItem;
-                if (e.Value == null)
+                if (_structGridView.Rows[e.RowIndex].DataBoundItem is StructCell)
                 {
-                    e.Value = cell.GetStructDef().Name;
-                    e.CellStyle.ForeColor = Color.DarkGray;
-                    e.FormattingApplied = true;
+                    var cell = (StructCell)_structGridView.Rows[e.RowIndex].DataBoundItem;
+                    if (e.Value == null)
+                    {
+                        e.Value = cell.GetStructDef().Name;
+                        e.CellStyle.ForeColor = Color.DarkGray;
+                        e.FormattingApplied = true;
+                    }
                 }
             }
         }
@@ -419,6 +507,8 @@ namespace Structorian
                     _hexDump.Stream = null;
                 }
             }
+            _structGridView.DataSource = null;
+            this._checksumData = 0;
         }
 
         public void ShowSearchResults(List<InstanceTreeNode> results)
@@ -467,6 +557,66 @@ namespace Structorian
         {
             var node = (InstanceTreeNode) _structTreeView.SelectedNode.Tag;
             _structTreeView.SelectedNode = _nodeMap[node];
+        }
+
+        private void _structGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (_structGridView.SelectedRows.Count > 0)
+            {
+                if (_structGridView.SelectedRows[0].DataBoundItem is StructCell)
+                {
+                    var cell = (StructCell)_structGridView.SelectedRows[0].DataBoundItem;
+                    int offset = cell.Offset;
+                    if (offset >= 0)
+                    {
+                        int dataSize = cell.GetDataSize((StructInstance)_activeInstance);
+                        if (dataSize <= 0)
+                            dataSize = 1;
+                        _hexDump.SelectBytes(offset, dataSize);
+                    }
+                    if (CellSelected != null)
+                        CellSelected(this, new CellSelectedEventArgs(cell));
+                }
+            }
+            // Re-select tree node
+            var refNode = _nodeMap[currentInstanceTree].Nodes.OfType<TreeNode>()
+                .FirstOrDefault(node => node.Text.Equals(_structGridView.CurrentCell.RowIndex + ". " + currentInstanceTree.Children.First().NodeName));
+            _structTreeView.SelectedNode = refNode;
+        }
+
+        private void _structGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void _structGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (_structGridView[e.ColumnIndex, e.RowIndex].Value.Equals(e.FormattedValue))
+            {
+                return;
+            }
+            PatchData patchData = new PatchData();
+            var selectedNode = _nodeMap[currentInstanceTree].Nodes.OfType<TreeNode>()
+                .FirstOrDefault(node => node.Text.Equals(e.RowIndex + ". " + currentInstanceTree.Children.First().NodeName));
+            if (selectedNode == null)
+            {
+                return;
+            }
+            var cell = (ValueCell)((StructInstance)selectedNode.Tag).Cells[e.ColumnIndex];
+            if (this._listPatchData.ContainsKey(cell.Offset) && this._listPatchData[cell.Offset]._oldValue.ToString().Equals(e.FormattedValue))
+            {
+                _structGridView[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Empty;
+                this._listPatchData.Remove(cell.Offset);
+                return;
+            }
+            var originalType = cell.GetValue().GetType();
+            var converter = TypeDescriptor.GetConverter(originalType);
+            patchData._oldValue = cell.GetValue();
+            patchData._offset = cell.Offset;
+            patchData._dataSize = cell.GetStructDef().GetDataSize();
+            patchData._dataValue = converter.ConvertFrom(e.FormattedValue);
+            patchData._structField = cell.GetStructDef();
+            this._listPatchData.Add(cell.Offset, patchData);
+            _structGridView[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Yellow;
         }
     }
 

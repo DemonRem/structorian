@@ -1,3 +1,4 @@
+using Structorian.Engine.Fields;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,7 @@ namespace Structorian.Engine
         private string _defaultAttribute = "tag";
         private bool _acceptsChildren = false;
         protected bool _hidden;
+        private long _offset;
         private Dictionary<string, object> _attributeValues = new Dictionary<string, object>();
 
         protected StructField(StructDef structDef)
@@ -167,7 +169,8 @@ namespace Structorian.Engine
 
         protected void AddCell(StructInstance instance, IConvertible value, string displayValue, int offset)
         {
-            instance.AddCell(new ValueCell(this, value, displayValue, offset), _hidden);
+            StructCell cell = new ValueCell(this, value, displayValue, offset);
+            instance.AddCell(cell, _hidden);
         }
 
         protected void AddCell(StructInstance instance, Expression expr)
@@ -192,7 +195,9 @@ namespace Structorian.Engine
         {
             get { return _linkedToField != null; }
         }
-        
+
+        public long Offset { get => _offset; set => _offset = value; }
+
         public virtual int GetDataSize()
         {
             return 0;
@@ -204,6 +209,27 @@ namespace Structorian.Engine
             if (cellSize.HasValue)
                 return cellSize.Value;
             return GetDataSize();
+        }
+
+        public static bool IsNumericType(object o)
+        {
+            switch (Type.GetTypeCode(o.GetType()))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

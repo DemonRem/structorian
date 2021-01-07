@@ -1,0 +1,6 @@
+D:\GameDev\SoulWorker\structorian-master\UI\bin\Debug\HexDump.dll
+D:\GameDev\SoulWorker\structorian-master\UI\bin\Debug\HexDump.pdb
+D:\GameDev\SoulWorker\structorian-master\UI\obj\Debug\UI.csprojAssemblyReference.cache
+D:\GameDev\SoulWorker\structorian-master\UI\obj\Debug\UI.csproj.CoreCompileInputs.cache
+D:\GameDev\SoulWorker\structorian-master\UI\obj\Debug\HexDump.dll
+D:\GameDev\SoulWorker\structorian-master\UI\obj\Debug\HexDump.pdb
